@@ -1,0 +1,10 @@
+Swiss National Open Database:
+https://opendata.swiss/en/
+
+-- Specific Sources --
+
+- Gross National Fiscal Data
+https://opendata.swiss/en/dataset/bruttoinlandprodukt-nach-einkommensarten-und-bruttonationaleinkommen2
+
+- Domestic Disposable Income/Savings
+https://opendata.swiss/en/dataset/verfugbares-einkommen-und-ersparnis-der-privaten-haushalte-und-pooe-zu-laufenden-preisen2
