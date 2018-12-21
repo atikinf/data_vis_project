@@ -3,8 +3,13 @@
 <head>
   <meta charset="utf-8">
   <title>NYC Crime Overview</title>
+
+  <!-- CSS -->
   <link rel="stylesheet" href="css/style.css" />
+  <!-- D3 -->
+  <script src="https://d3js.org/d3.v5.min.js"></script>
 </head>
+
 <body>
   <div id="nav"> 
     <ul>
@@ -13,12 +18,37 @@
     </ul> 
   </div>
   <div id="title">
-    <h1>Crime in New York</h1>
+    <h1>Crime in Metropolis</h1>
+    <!-- <img src="images/police_tape.png" height=8px width=200px> -->
+    <h3>A data-story of crime in New York City</h3>
   </div>
 
   <div id="content">
-    <p>New York City is the largest city in America, with over 8 million inhabitants. </p>
-  </div>
+    <!-- INSERT IMAGE of some sort -->
 
+    <p>New York City is the largest city in America, with over <i>8.5 million</i> inhabitants. With tales of gangsters ruling the mid-century streets and a rich history of, it's natural to expect that this massive city would come with massive amounts of crime.</p>
+
+    <p>Fortunately, <a href="https://data.cityofnewyork.us/Public-Safety/NYPD-Complaint-Data-Historic/qgea-i56i">detailed crime data</a> has been collected by the city of New York since 2006, giving us the chance to peer into the nature of the city's crime.
+    </p>
+
+    <!-- INSERT A BREAK OF SOME SORT - potentiall crime tape, image -->
+
+    <div class="subtitle">
+      <h2>// New York in Numbers //</h2>
+    </div>
+
+    <!-- Population Graph -->
+    <div class="svg_container">
+      <svg id="vis_A" viewBox="-10 -10 500 300"></svg>
+    </div>
+
+
+    <div class="subtitle">
+      <h2>// Patterns in Crime //</h2>
+    </div>
+  </div>
+  
+  <!-- Visualizations -->
+  <script src="js/custom.js"></script>
 </body>
 </html>
