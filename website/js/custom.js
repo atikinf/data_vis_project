@@ -209,7 +209,7 @@ class HorizBarGraph {
 
 		// violation legend
 		this.svg.append("rect")
-		.attr("fill", "yellow")
+		.attr("fill", "gold")
  		.attr("height", 10)
  		.attr("width", 20)
  		.attr("transform", "translate(660, 425)");
@@ -274,8 +274,6 @@ class StackedGraph {
 
  		let barPadding = 8;
 
- 		
-
  		let xLabels = new Array();
  		data1.forEach(function(d) {
 			d[val] = +d[val];
@@ -288,21 +286,13 @@ class StackedGraph {
 		
 		let y = d3.scaleLinear()
             .domain([0, max])
-            .range([400, 0]);
-		
-		
-		
-		
-		data1.forEach(function(d) {
-			
-		});
-		
+            .range([400, 0]);		
 
 		felonies.selectAll("rect")
 		    .data(data3)
 		    .enter()
 		    .append("rect")
-		    .attr("fill", "yellow")
+		    .attr("fill", "gold")
 		    .attr("y", function(d) {
 		        return 50 + y(d[val]);
 		    })
@@ -367,7 +357,7 @@ class StackedGraph {
 		// x-axis label
 		this.svg.append("text")
 			.attr("x", 400)             
-			.attr("y", 500)
+			.attr("y", 490)
 			.attr("text-anchor", "middle")  
 			.style("font-size", "18px") 
 			.text(xlabel);
@@ -420,7 +410,7 @@ class StackedGraph {
 
 		// violation legend
 		this.svg.append("rect")
-		.attr("fill", "yellow")
+		.attr("fill", "gold")
  		.attr("height", 10)
  		.attr("width", 20)
  		.attr("transform", "translate(75, 130)");
@@ -575,7 +565,7 @@ whenDocumentLoaded(() => {
 		d3.csv("data/violations_hour.csv").then(function (data2) {
 			d3.csv("data/felonies_hour.csv").then(function (data3) {
 				combined = [data1, data2, data3];
-				const plot = new StackedGraph("vis_D", combined, "Hour of the Day", "count", 
+				const plot = new StackedGraph("vis_D", combined, "Hour", "count", 
 					"Number of Crimes per Hour of Day, 2006-2017", "Hour of Day", "Number of Crimes Comitted");
 			}); 
 		});
@@ -585,7 +575,7 @@ whenDocumentLoaded(() => {
 			if (d.category == "FELONY") {
 				d["category"] = "red";
 			} else if (d.category == "VIOLATION") {
-				d["category"] = "yellow";
+				d["category"] = "gold";
 			} else { // misdemeanor
 				d["category"] = "orange";
 			}
