@@ -57,7 +57,7 @@ class BarGraph {
     // title
     this.svg.append("text")
             .attr("x", 400)             
-            .attr("y", 40)
+            .attr("y", 20)
             .attr("text-anchor", "middle")  
             .style("font-size", "28px") 
             .text(title);
@@ -146,12 +146,12 @@ class HorizBarGraph {
     // 	''  y-axis
     this.svg.append("g").attr("transform", "translate(0, 50)").call(yAxis);
 
-    // y-axis label
+    // title
     this.svg.append("text")
     .attr("x", 400)             
-    .attr("y", 40)
+    .attr("y", 20)
     .attr("text-anchor", "middle")  
-    .style("font-size", "24px") 
+    .style("font-size", "28px") 
     .text(title);
 
 		// x-axis label
@@ -159,16 +159,15 @@ class HorizBarGraph {
 		.attr("x", 400)             
 		.attr("y", 485)
 		.attr("text-anchor", "middle")  
-		.style("font-size", "14px") 
+		.style("font-size", "18px") 
 		.text(xlabel);
-
 
 		// y-axis label
 		this.svg.append("text")
 		.attr("transform", "rotate(-90)")
 		.attr("y", -75)
 		.attr("x", -250)
-		.style("font-size", "14px")
+		.style("font-size", "18px")
 		.style("text-anchor", "middle")
 		.text(ylabel); 
 
@@ -191,7 +190,7 @@ class HorizBarGraph {
 		this.svg.append("text")
 		.attr("x", 685)
 		.attr("y", 385)
-		.style("font-size", "14px")
+		.style("font-size", "18px")
 		.text("Felonies"); 
 
 		// misdemeanor legend
@@ -204,7 +203,7 @@ class HorizBarGraph {
 		this.svg.append("text")
 		.attr("x", 685)
 		.attr("y", 410)
-		.style("font-size", "14px")
+		.style("font-size", "18px")
 		.text("Misdemeanors"); 
 
 		// violation legend
@@ -217,7 +216,7 @@ class HorizBarGraph {
 		this.svg.append("text")
 		.attr("x", 685)
 		.attr("y", 435)
-		.style("font-size", "14px")
+		.style("font-size", "18px")
 		.text("Violations"); 
 	}
 }
@@ -352,7 +351,7 @@ class StackedGraph {
     // title
     this.svg.append("text")
             .attr("x", 400)             
-            .attr("y", 40)
+            .attr("y", 20)
             .attr("text-anchor", "middle")  
             .style("font-size", "28px") 
             .text(title);
@@ -395,7 +394,7 @@ class StackedGraph {
 		this.svg.append("text")
 		.attr("x", 100)
 		.attr("y", 90)
-		.style("font-size", "14px")
+		.style("font-size", "18px")
 		.text("Felonies"); 
 
 		// misdemeanor legend
@@ -408,7 +407,7 @@ class StackedGraph {
 		this.svg.append("text")
 		.attr("x", 100)
 		.attr("y", 115)
-		.style("font-size", "14px")
+		.style("font-size", "18px")
 		.text("Misdemeanors"); 
 
 		// violation legend
@@ -421,7 +420,7 @@ class StackedGraph {
 		this.svg.append("text")
 		.attr("x", 100)
 		.attr("y", 140)
-		.style("font-size", "14px")
+		.style("font-size", "18px")
 		.text("Violations"); 
 	}
 }
@@ -505,7 +504,7 @@ class RectangularHeatmap {
 		.attr("x", 400)             
 		.attr("y", 20)
 		.attr("text-anchor", "middle")  
-		.style("font-size", "14px") 
+		.style("font-size", "18px") 
 		.text(xlabel);
 
 		// y-axis label
@@ -513,7 +512,7 @@ class RectangularHeatmap {
 		.attr("transform", "rotate(-90)")
 		.attr("y", -50)
 		.attr("x", -50 - itemSize * y_elements.length / 2)
-		.style("font-size", "14px")
+		.style("font-size", "18px")
 		.style("text-anchor", "middle")
 		.text(ylabel); 
 
@@ -522,21 +521,21 @@ class RectangularHeatmap {
 		.attr("x", 0)             
 		.attr("y", 350)
 		.attr("text-anchor", "middle")  
-		.style("font-size", "14px") 
+		.style("font-size", "18px") 
 		.text(0);
 
 		this.svg.append("text")
 		.attr("x", width)             
 		.attr("y", 350)
 		.attr("text-anchor", "middle")  
-		.style("font-size", "14px") 
+		.style("font-size", "18px") 
 		.text(d3.max(data, function(d) { return d["count"]; }));
 
 		this.svg.append("text")
 		.attr("x", -50)             
 		.attr("y", 320)
 		.attr("text-anchor", "middle")  
-		.style("font-size", "14px") 
+		.style("font-size", "18px") 
 		.text("Color scale:");
 	}
 }
