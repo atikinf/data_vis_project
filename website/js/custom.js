@@ -82,14 +82,14 @@ class BarGraph {
 	}
 }
 
-// A horizontal Bar Graph, graphing data as given
+// Corresponds to a horizontal Bar Graph, graphing data as given
 class HorizBarGraph {
 	// data as a map (i.e. {year : count, . . . })
-	constructor(id, data, label, val, title, xlabel, ylabel) {
+	constructor(id, data, label, val, title, xlabel, ylabel, color=null) {
 		this.svg = d3.select("#" + id);
 
 		// scales the width by proper amount
- 		let height = 400 / data.length;
+		let height = 400 / data.length;
 
  		// encodes index information for each bar
  		for (let i in data) {
@@ -100,40 +100,46 @@ class HorizBarGraph {
 
  		let yLabels = new Array();
  		data.forEach(function(d) {
- 				d[val] = +d[val];
-				yLabels.push(d[label]);
-		});
+ 			d[val] = +d[val];
+ 			yLabels.push(d[label]);
+ 		});
 
 
-		let x = d3.scaleLinear()
-            .domain([0, d3.max(data, function(d) { return d[val]; })])
-            .range([0, 800]);
+ 		let x = d3.scaleLinear()
+ 		.domain([0, d3.max(data, function(d) { return d[val]; })])
+ 		.range([0, 800]);
 
-   	let y = d3.scaleBand()
-							.domain(yLabels)
-							.range([0, 400])
+ 		let y = d3.scaleBand()
+ 		.domain(yLabels)
+ 		.range([400, 0])
 
-		let barChart = this.svg.selectAll("rect")
-		    .data(data)
-		    .enter()
-		    .append("rect")
-		    .attr("fill", "steelblue")
-		    .attr("x", function(d) {
-		        return 0;
-		    })
-		    .attr("height", height - barPadding)
-		    .attr("width", function(d) {
-		        return x(d[val]);
-		    })
-		    .attr("transform", function (d, i) {
-		    		let base = 450 - height + barPadding;
-		        let translate = [0, base - height * i];
-		        return "translate("+ translate +")";
-		    });
+ 		let barChart = this.svg.selectAll("rect")
+ 		.data(data)
+ 		.enter()
+ 		.append("rect")
+ 		.attr("fill", function(d) {
+ 			if (color == null) {
+ 				return "steelblue";
+ 			} else {
+ 				return d[color];
+ 			}
+ 		})
+ 		.attr("x", function(d) {
+ 			return 0;
+ 		})
+ 		.attr("height", height - barPadding)
+ 		.attr("width", function(d) {
+ 			return x(d[val]);
+ 		})
+ 		.attr("transform", function (d, i) {
+ 			let base = 450 - height + barPadding;
+ 			let translate = [0, base - height * i];
+ 			return "translate("+ translate +")";
+ 		});
 
 		// mark ticks 
-    let xAxis = d3.axisBottom().scale(x);
-    let yAxis = d3.axisLeft().scale(y);
+		let xAxis = d3.axisBottom().scale(x);
+		let yAxis = d3.axisLeft().scale(y);
 
     // adds x-axis
     this.svg.append("g").attr("transform", "translate(0, 450)").call(xAxis);
@@ -142,32 +148,79 @@ class HorizBarGraph {
 
     // y-axis label
     this.svg.append("text")
-            .attr("x", 400)             
-            .attr("y", 40)
-            .attr("text-anchor", "middle")  
-            .style("font-size", "28px") 
-            .text(title);
+    .attr("x", 400)             
+    .attr("y", 40)
+    .attr("text-anchor", "middle")  
+    .style("font-size", "24px") 
+    .text(title);
 
 		// x-axis label
 		this.svg.append("text")
-			.attr("x", 400)             
-			.attr("y", 500)
-			.attr("text-anchor", "middle")  
-			.style("font-size", "18px") 
-			.text(xlabel);
+		.attr("x", 400)             
+		.attr("y", 485)
+		.attr("text-anchor", "middle")  
+		.style("font-size", "14px") 
+		.text(xlabel);
 
 
 		// y-axis label
-	  this.svg.append("text")
-	      .attr("transform", "rotate(-90)")
-	      .attr("y", -85)
-	      .attr("x", -250)
-	      .style("font-size", "18px")
-	      .style("text-anchor", "middle")
-	      .text(ylabel); 
+		this.svg.append("text")
+		.attr("transform", "rotate(-90)")
+		.attr("y", -75)
+		.attr("x", -250)
+		.style("font-size", "14px")
+		.style("text-anchor", "middle")
+		.text(ylabel); 
+
+		// legend outline
+		this.svg.append("rect")
+		.attr("stroke", "black")
+		.attr("stroke-width", 1)
+		.attr("fill", "none")
+ 		.attr("height", 80)
+ 		.attr("width", 150)
+ 		.attr("transform", "translate(650, 365)");
+
+ 		// felony legend
+		this.svg.append("rect")
+		.attr("fill", "red")
+ 		.attr("height", 10)
+ 		.attr("width", 20)
+ 		.attr("transform", "translate(660, 375)");
+
+		this.svg.append("text")
+		.attr("x", 685)
+		.attr("y", 385)
+		.style("font-size", "14px")
+		.text("Felonies"); 
+
+		// misdemeanor legend
+		this.svg.append("rect")
+		.attr("fill", "orange")
+ 		.attr("height", 10)
+ 		.attr("width", 20)
+ 		.attr("transform", "translate(660, 400)");
+
+		this.svg.append("text")
+		.attr("x", 685)
+		.attr("y", 410)
+		.style("font-size", "14px")
+		.text("Misdemeanors"); 
+
+		// violation legend
+		this.svg.append("rect")
+		.attr("fill", "yellow")
+ 		.attr("height", 10)
+ 		.attr("width", 20)
+ 		.attr("transform", "translate(660, 425)");
+
+		this.svg.append("text")
+		.attr("x", 685)
+		.attr("y", 435)
+		.style("font-size", "14px")
+		.text("Violations"); 
 	}
 }
-
 // A Stacked Bar Graph, graphing data as given
 class StackedGraph {
 	// data as a map (i.e. {year : count, . . . })
@@ -328,6 +381,55 @@ class StackedGraph {
 	      .style("font-size", "18px")
 	      .style("text-anchor", "middle")
 	      .text(ylabel); 
+
+
+		// legend outline
+		this.svg.append("rect")
+		.attr("stroke", "black")
+		.attr("stroke-width", 1)
+		.attr("fill", "none")
+ 		.attr("height", 80)
+ 		.attr("width", 150)
+ 		.attr("transform", "translate(65, 70)");
+
+ 		// felony legend
+		this.svg.append("rect")
+		.attr("fill", "red")
+ 		.attr("height", 10)
+ 		.attr("width", 20)
+ 		.attr("transform", "translate(75, 80)");
+
+		this.svg.append("text")
+		.attr("x", 100)
+		.attr("y", 90)
+		.style("font-size", "14px")
+		.text("Felonies"); 
+
+		// misdemeanor legend
+		this.svg.append("rect")
+		.attr("fill", "orange")
+ 		.attr("height", 10)
+ 		.attr("width", 20)
+ 		.attr("transform", "translate(75, 105)");
+
+		this.svg.append("text")
+		.attr("x", 100)
+		.attr("y", 115)
+		.style("font-size", "14px")
+		.text("Misdemeanors"); 
+
+		// violation legend
+		this.svg.append("rect")
+		.attr("fill", "yellow")
+ 		.attr("height", 10)
+ 		.attr("width", 20)
+ 		.attr("transform", "translate(75, 130)");
+
+		this.svg.append("text")
+		.attr("x", 100)
+		.attr("y", 140)
+		.style("font-size", "14px")
+		.text("Violations"); 
 	}
 }
 
