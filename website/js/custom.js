@@ -65,7 +65,7 @@ class BarGraph {
 		// x-axis label
 		this.svg.append("text")
 			.attr("x", 400)             
-			.attr("y", 500)
+			.attr("y", 490)
 			.attr("text-anchor", "middle")  
 			.style("font-size", "18px") 
 			.text(xlabel);
@@ -209,7 +209,7 @@ class HorizBarGraph {
 
 		// violation legend
 		this.svg.append("rect")
-		.attr("fill", "gold")
+		.attr("fill", "yellow")
  		.attr("height", 10)
  		.attr("width", 20)
  		.attr("transform", "translate(660, 425)");
@@ -274,6 +274,8 @@ class StackedGraph {
 
  		let barPadding = 8;
 
+ 		
+
  		let xLabels = new Array();
  		data1.forEach(function(d) {
 			d[val] = +d[val];
@@ -286,13 +288,14 @@ class StackedGraph {
 		
 		let y = d3.scaleLinear()
             .domain([0, max])
-            .range([400, 0]);		
+            .range([400, 0]);
+		
 
 		felonies.selectAll("rect")
 		    .data(data3)
 		    .enter()
 		    .append("rect")
-		    .attr("fill", "gold")
+		    .attr("fill", "yellow")
 		    .attr("y", function(d) {
 		        return 50 + y(d[val]);
 		    })
@@ -357,7 +360,7 @@ class StackedGraph {
 		// x-axis label
 		this.svg.append("text")
 			.attr("x", 400)             
-			.attr("y", 490)
+			.attr("y", 485)
 			.attr("text-anchor", "middle")  
 			.style("font-size", "18px") 
 			.text(xlabel);
@@ -410,7 +413,7 @@ class StackedGraph {
 
 		// violation legend
 		this.svg.append("rect")
-		.attr("fill", "gold")
+		.attr("fill", "yellow")
  		.attr("height", 10)
  		.attr("width", 20)
  		.attr("transform", "translate(75, 130)");
@@ -550,22 +553,22 @@ function whenDocumentLoaded(action) {
 whenDocumentLoaded(() => {
 	// creates map
 	d3.csv("data/years.csv").then(function (data) {
-		const plot = new BarGraph("vis_A", data, "Year", "count", 
+		const plot = new BarGraph("year_graph", data, "Year", "count", 
 			"Number of Crimes per Year", "Year", "Number of Crimes Committed");
 	});
 	d3.csv("data/borough_counts.csv").then(function (data) {
-		const plot = new BarGraph("vis_B", data, "BORO_NM", "count", 
+		const plot = new BarGraph("boro_graph", data, "BORO_NM", "count", 
 			"Number of Crimes per Borough, 2017", "Borough", "Number of Crimes Committed");
 	});
 	d3.csv("data/month_counts.csv").then(function (data) {
-		const plot = new BarGraph("vis_C", data, "Month", "count", 
+		const plot = new BarGraph("month_graph", data, "Month", "count", 
 			"Number of Crimes per Month, 2006-2017", "Month", "Number of Crimes Committed");
 	});
 	d3.csv("data/misdemeanors_hour.csv").then(function (data1) {
 		d3.csv("data/violations_hour.csv").then(function (data2) {
 			d3.csv("data/felonies_hour.csv").then(function (data3) {
 				combined = [data1, data2, data3];
-				const plot = new StackedGraph("vis_D", combined, "Hour", "count", 
+				const plot = new StackedGraph("stack_graph", combined, "Hour of the Day", "count", 
 					"Number of Crimes per Hour of Day, 2006-2017", "Hour of Day", "Number of Crimes Comitted");
 			}); 
 		});
@@ -575,15 +578,15 @@ whenDocumentLoaded(() => {
 			if (d.category == "FELONY") {
 				d["category"] = "red";
 			} else if (d.category == "VIOLATION") {
-				d["category"] = "gold";
+				d["category"] = "yellow";
 			} else { // misdemeanor
 				d["category"] = "orange";
 			}
 		});
-		const plot = new HorizBarGraph("vis_E", data, "OFNS_DESC", "count", "Most Frequent Crimes Committed", 
+		const plot = new HorizBarGraph("freq_graph", data, "OFNS_DESC", "count", "Most Frequent Crimes Committed", 
 			"Number of Crimes Committed", "", color="category");
 	});
 	d3.csv("data/crime_times.csv").then(function (data) {
-		const plot = new RectangularHeatmap("vis_F", data, "Hour", "Day", "count", "Hour", "Day of the Week");
+		const plot = new RectangularHeatmap("heatmap", data, "Hour", "Day", "count", "Hour", "Day of the Week");
 	});
 });
