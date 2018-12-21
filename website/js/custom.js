@@ -178,26 +178,31 @@ class StackedGraph {
 
 		// Stack two data objs
 		function stack(a, b) {
-			let result = {};
+			let result = new Array();
 			for (let i in a) {
-				result[i] = {};
-				result[i]['LAW_CAT_CD'] = a[i]['LAW_CAT_CD'];
-				result[i]['Hour'] = a[i]['Hour'];
-				result[i]['count'] = +a[i]['count'] + b[i]['count'];
+				let curr = {};
+				curr['LAW_CAT_CD'] = a[i]['LAW_CAT_CD'];
+				curr['Hour'] = a[i]['Hour'];
+				curr['count'] = parseInt(a[i]['count']) + parseInt(b[i]['count']);
+				result.push(curr);
 			}
+			console.log(result);
 			return result;
 		}
 
+		
+
 		let data1 = combined[0];
 		let data2 = stack(combined[0], combined[1]);
+		console.log(data1);
+		console.log(data2);
 		let data3 = stack(data2, combined[2]);
 
-		console.log("data3");
-		console.log(data3);
+
+
 		let max = 0;
-		for (let i = 0; i < data3.length; i++) {
+		for (let i in data3) {
 			let curr = data3[i]['count'];
-			console.log(curr);
 			if (data3[i]['count'] > max) {
 				max = data3[i]['count'];
 			}
@@ -228,12 +233,52 @@ class StackedGraph {
 			.domain(xLabels)
 			.range([0, 800])
 		
-	 	console.log('test');
-
 		let y = d3.scaleLinear()
             .domain([0, max])
             .range([400, 0]);
-	
+		
+		console.log('datasets');
+		console.log(data1);
+		console.log(data2);
+		data1.forEach(function(d) {
+			console.log(d[val]);
+		});
+		console.log('test');
+
+		this.svg.selectAll("rect")
+		    .data(data3)
+		    .enter()
+		    .append("rect")
+		    .attr("fill", "red")
+		    .attr("y", function(d) {
+		        return 50 + y(d[val]);
+		    })
+		    .attr("height", function(d) {
+		        return y(0) - y(d[val]);
+		    })
+		    .attr("width", width - barPadding)
+		    .attr("transform", function (d, i) {
+		         let translate = [width * i, 0];
+		         return "translate("+ translate +")";
+		    });
+
+		this.svg.selectAll("rect")
+		    .data(data2)
+		    .enter()
+		    .append("rect")
+		    .attr("fill", "orange")
+		    .attr("y", function(d) {
+		        return 50 + y(d[val]);
+		    })
+		    .attr("height", function(d) {
+		        return y(0) - y(d[val]);
+		    })
+		    .attr("width", width - barPadding)
+		    .attr("transform", function (d, i) {
+		         let translate = [width * i, 0];
+		         return "translate("+ translate +")";
+		    });
+
 		this.svg.selectAll("rect")
 		    .data(data1)
 		    .enter()
