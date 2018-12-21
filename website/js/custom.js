@@ -14,7 +14,7 @@ class BarGraph {
  			data[i]["i"] = width * i;
  		}
 
- 		var barPadding = 8;
+ 		let barPadding = 8;
 
  		let xLabels = new Array();
  		data.forEach(function(d) {
@@ -30,7 +30,7 @@ class BarGraph {
             .domain([0, d3.max(data, function(d) { return d[val]; })])
             .range([400, 0]);
 
-		var barChart = this.svg.selectAll("rect")
+		let barChart = this.svg.selectAll("rect")
 		    .data(data)
 		    .enter()
 		    .append("rect")
@@ -43,24 +43,24 @@ class BarGraph {
 		    })
 		    .attr("width", width - barPadding)
 		    .attr("transform", function (d, i) {
-		         var translate = [width * i, 0];
+		         let translate = [width * i, 0];
 		         return "translate("+ translate +")";
 		    });
 
-		    var xAxis = d3.axisBottom().scale(x);
-		    var yAxis = d3.axisLeft().scale(y);
+    let xAxis = d3.axisBottom().scale(x);
+    let yAxis = d3.axisLeft().scale(y);
 
-	    // adds x-axis
-	    this.svg.append("g").attr("transform", "translate(0, 450)").call(xAxis);
-	    this.svg.append("g").attr("transform", "translate(0, 50)").call(yAxis);
+    // adds x-axis
+    this.svg.append("g").attr("transform", "translate(0, 450)").call(xAxis);
+    this.svg.append("g").attr("transform", "translate(0, 50)").call(yAxis);
 
-	    // y-axis label
-	    this.svg.append("text")
-	            .attr("x", 400)             
-	            .attr("y", 40)
-	            .attr("text-anchor", "middle")  
-	            .style("font-size", "24px") 
-	            .text(title);
+    // y-axis label
+    this.svg.append("text")
+            .attr("x", 400)             
+            .attr("y", 40)
+            .attr("text-anchor", "middle")  
+            .style("font-size", "24px") 
+            .text(title);
 
 		// x-axis label
 		this.svg.append("text")
@@ -94,10 +94,10 @@ class HorizBarGraph {
 
  		// encodes index information for each bar
  		for (let i in data) {
- 			data[i]["i"] = height * i;
+ 			data[i]["i"] = height * i * 40;
  		}
 
- 		var barPadding = 8;
+ 		let barPadding = 8;
 
  		let yLabels = new Array();
  		data.forEach(function(d) {
@@ -110,9 +110,9 @@ class HorizBarGraph {
             .domain([0, d3.max(data, function(d) { return d[val]; })])
             .range([0, 800]);
 
-   		let y = d3.scaleBand()
-			.domain(yLabels)
-			.range([0, 400])
+   	let y = d3.scaleBand()
+							.domain(yLabels)
+							.range([0, 400])
 
 		let barChart = this.svg.selectAll("rect")
 		    .data(data)
@@ -127,24 +127,27 @@ class HorizBarGraph {
 		        return x(d[val]);
 		    })
 		    .attr("transform", function (d, i) {
-		         var translate = [0, 400 - height * i];
-		         return "translate("+ translate +")";
+		    		let base = 450 - height + barPadding;
+		        let translate = [0, base - height * i];
+		        return "translate("+ translate +")";
 		    });
 
-		    var xAxis = d3.axisBottom().scale(x);
-		    var yAxis = d3.axisLeft().scale(y);
+		// mark ticks 
+    let xAxis = d3.axisBottom().scale(x);
+    let yAxis = d3.axisLeft().scale(y);
 
-	    // adds x-axis
-	    this.svg.append("g").attr("transform", "translate(0, 450)").call(xAxis);
-	    this.svg.append("g").attr("transform", "translate(0, 50)").call(yAxis);
+    // adds x-axis
+    this.svg.append("g").attr("transform", "translate(0, 450)").call(xAxis);
+    // 	''  y-axis
+    this.svg.append("g").attr("transform", "translate(0, 50)").call(yAxis);
 
-	    // y-axis label
-	    this.svg.append("text")
-	            .attr("x", 400)             
-	            .attr("y", 40)
-	            .attr("text-anchor", "middle")  
-	            .style("font-size", "24px") 
-	            .text(title);
+    // y-axis label
+    this.svg.append("text")
+            .attr("x", 400)             
+            .attr("y", 40)
+            .attr("text-anchor", "middle")  
+            .style("font-size", "24px") 
+            .text(title);
 
 		// x-axis label
 		this.svg.append("text")
@@ -181,7 +184,7 @@ whenDocumentLoaded(() => {
 		const plot = new BarGraph("vis_A", data, "Year", "count", "Number of Crimes per Year", "Year", "Number of Crimes Committed");
 	});
 	d3.csv("data/borough_counts.csv").then(function (data) {
-		const plot = new BarGraph("vis_B", data, "BORO_NM", "count", "Number of Crimes per Borough", "Borough", "Number of Crimes Committed");
+		const plot = new HorizBarGraph("vis_B", data, "BORO_NM", "count", "Number of Crimes per Borough", "Borough", "Number of Crimes Committed");
 	});
 	d3.csv("data/month_counts.csv").then(function (data) {
 		const plot = new HorizBarGraph("vis_C", data, "Month", "count", "Number of Crimes per Month", "Month", "Number of Crimes Committed");
