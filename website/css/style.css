@@ -69,6 +69,17 @@
   text-align: center;
 }
 
+.text_center {
+  text-align: center;
+}
+
+.text_left {
+  margin-left:auto;
+  margin-right:auto;
+  width: 60%;
+  text-align: left;
+}
+
 #nav ul {
   list-style-type: none;
   margin: 0;
@@ -114,4 +125,15 @@ body, h1 {
 svg {
   width: 100%;
   height: 100%;
+}
+
+hr {
+  margin-top: 15px;
+  margin-bottom: 15px;
+  border:none;
+  border-top:1px dotted black;
+  color: black;
+  background-color:#fff;
+  height:1px;
+  width:70%;
 }
