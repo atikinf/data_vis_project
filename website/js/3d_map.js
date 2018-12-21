@@ -14,22 +14,22 @@ whenDocumentLoaded(() => {
   });
 
   map.themes.setTime(L.eeGeo.themes.time.Night);
-
+  
   L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
   }).addTo(map);
 
   var FelonyIcon = L.Icon.extend({
     options: {
-iconSize:     [34, 34], // size of the icon
-iconAnchor:   [17, 17], // point of the icon which will correspond to marker's location
-popupAnchor:  [-3, -3] // point from which the popup should open relative to the iconAnchor
-}
-});
+            iconSize:     [34, 34], // size of the icon
+          iconAnchor:   [17, 17], // point of the icon which will correspond to marker's location
+          popupAnchor:  [-3, -3] // point from which the popup should open relative to the iconAnchor
+        }
+      });
 
-
-
-
+  
+  
+  
 
   var assaultIcon = new FelonyIcon({iconUrl: './markers/Assault.png'});
   var larcenyIcon = new FelonyIcon({iconUrl: './markers/Larceny.png'});
@@ -65,34 +65,90 @@ popupAnchor:  [-3, -3] // point from which the popup should open relative to the
   larcenies.addTo(map);
 
   var murders = L.layerGroup();
-  larcenies.addTo(map);
-
+  murders.addTo(map);
+  
   var burglaries = L.layerGroup();
-  larcenies.addTo(map);
-
+  burglaries.addTo(map);
+  
   var prostitution = L.layerGroup();
-  larcenies.addTo(map);
-
+  prostitution.addTo(map);
+  
   var weapons = L.layerGroup();
-  larcenies.addTo(map);
-
+  weapons.addTo(map);
+  
   var forgery = L.layerGroup();
-  larcenies.addTo(map);
-
+  forgery.addTo(map);
+  
   var rape = L.layerGroup();
-  larcenies.addTo(map);
-
+  rape.addTo(map);
 
   var misc = L.layerGroup();
   misc.addTo(map);
 
-  var baseMaps = {
+  var carTheft = L.layerGroup();
+  carTheft.addTo(map);
 
+  var drugs = L.layerGroup();
+  drugs.addTo(map);
+
+  var kidnapping = L.layerGroup();
+  kidnapping.addTo(map);
+
+  var homicide = L.layerGroup();
+  homicide.addTo(map);
+
+  var sex = L.layerGroup();
+  sex.addTo(map);
+
+  var gambling = L.layerGroup();
+  gambling.addTo(map);
+
+  var mischief = L.layerGroup();
+  mischief.addTo(map);
+
+  var arson = L.layerGroup();
+  arson.addTo(map);
+
+  var fraud = L.layerGroup();
+  fraud.addTo(map);
+
+  var intox = L.layerGroup();
+  intox.addTo(map);
+
+  var stolen = L.layerGroup();
+  stolen.addTo(map);
+
+  var abort = L.layerGroup();
+  abort.addTo(map);
+
+
+  
+
+  var baseMaps = {
   };
 
   var overlayMarkers = {
     "Assaults" : assaults,
     "Larcenies" : larcenies,
+    "Robberies" : robberies,
+    "Murders" : murders,
+    "Burglaries" : burglaries,
+    "Prostitution" : prostitution,
+    "Weapons" : weapons,
+    "Forgery" : forgery,
+    "Rape" : rape,
+    "Car Theft" : carTheft,
+    "Drugs" : drugs,
+    "Kidnapping": kidnapping,
+    "Homicide" : homicide,
+    "Sex Crimes" : sex,
+    "Gambling" : gambling,
+    "Mischief" : mischief,
+    "Arson" : arson,
+    "Fraud" : fraud,
+    "Intoxicated driving": intox,
+    "Possession of stolen property": stolen,
+    "Abortion" : abort,
     "Misc.": misc
   }
 
@@ -102,7 +158,7 @@ popupAnchor:  [-3, -3] // point from which the popup should open relative to the
     map.setView([40.7590, -73.9845], 15, {tiltDegrees:15.0});
   }, 5000);
 
-
+  
   $.getJSON( "felonies.json", function( data ) { 
     var i=0;
     $.each(JSON.parse(data), function(k, fel){
@@ -122,63 +178,79 @@ popupAnchor:  [-3, -3] // point from which the popup should open relative to the
         break;
         case "MURDER & NON-NEGL. MANSLAUGHTER":
         iconFel = murderIcon;
+        layer = murders;
         break;
         case "BURGLARY":
         iconFel = burglaryIcon;
+        layer = burglaries;
         break;
         case "PROSTITUTION & RELATED OFFENSES":
         iconFel = prostitutionIcon;
+        layer = prostitution;
         break;
         case "RAPE":
         iconFel = rapeIcon;
+        layer = rape;
         break;
         case "DANGEROUS WEAPONS":
         iconFel = weaponsIcon;
+        layer = weapons;
         break;
         case "FORGERY":
         iconFel = forgeryIcon;
+        layer = forgery;
         break;
         case "GRAND LARCENY OF MOTOR VEHICLE":
         iconFel = carTheftIcon;
+        layer = carTheft;
         break;
         case "DANGEROUS DRUGS":
         iconFel = drugsIcon;
+        layer = drugs;
         break;
         case "KIDNAPPING":
         iconFel = kidnappingIcon;
+        layer = kidnapping;
         break;
         case "KIDNAPPING & RELATED OFFENSES":
         iconFel = kidnappingIcon;
-        break;
-        case "MURDER & NON-NEGL. MANSLAUGHTER":
-        iconFel = murderIcon;
+        layer = kidnapping;
         break;
         case "HOMICIDE-NEGLIGENT,UNCLASSIFIE":
         iconFel = homicideIcon;
+        layer = homicide;
         break;
         case "SEX CRIMES" :
         iconFel = sexIcon;
+        layer = sex;
         break;
         case "GAMBLING":
         iconFel = gamblingIcon;
+        layer = gambling;
         break;
         case "CRIMINAL MISCHIEF & RELATED OF":
         iconFel = mischiefIcon;
+        layer = mischief;
         break;
         case "ARSON":
         iconFel = arsonIcon;
+        layer = arson;
         break;
         case "THEFT-FRAUD":
         iconFel = fraudIcon;
+        layer = fraud;
         break;
         case "INTOXICATED/IMPAIRED DRIVING":
         iconFel = intoxIcon;
+        layer = intox;
         break;
         case "POSSESSION OF STOLEN PROPERTY":
         iconFel = stolenIcon;
+        layer = stolen;
         break;
         case "ABORTION":
         iconFel = abortIcon;
+        layer = abort;
         break;
         default:
         iconFel = miscIcon;
@@ -188,6 +260,7 @@ popupAnchor:  [-3, -3] // point from which the popup should open relative to the
         title: fel.OFNS_DESC,
         icon: iconFel
       }).addTo(map);
+
       layer.addLayer(marker);
       var popup = "<strong>Type: </strong>" +fel.OFNS_DESC +"</br>" 
       +"<strong>Description: </strong>" +fel.PD_DESC +"</br>"
@@ -198,10 +271,10 @@ popupAnchor:  [-3, -3] // point from which the popup should open relative to the
       +"<strong> Victim: </strong><ul><li>Age: " +fel.VIC_AGE_GROUP +"</li><li>Race: " +fel.VIC_RACE +"</li><li>Sex: " +fel.VIC_SEX +"</li></ul>";
       marker.bindPopup(popup);
       i += 1;
-      if (i>1000){
+      if (i>3000){
         return false;
       }
     });
-
+    
   });
 });

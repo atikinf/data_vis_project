@@ -48,7 +48,7 @@
 }
 
 #content {
-  width: 900px;
+  width: 60%;
   padding-top: 20px;
   margin-right: auto;
   margin-left: auto;
@@ -64,7 +64,10 @@
 }
 
 .svg_container {
+  height: 400px;
+  width: 100%;
   text-align: center;
+  background-color: yellow;
 }
 
 body {
@@ -76,7 +79,7 @@ html {
 	height: 100%;
 }
 
-ul {
+#nav ul {
   list-style-type: none;
   margin: 0;
   padding: 0;
@@ -84,11 +87,11 @@ ul {
   background-color: #333;
 }
 
-li {
+#nav li {
   float: left;
 }
 
-li a {
+#nav li a {
   display: block;
   color: white;
   text-align: center;
@@ -107,4 +110,9 @@ a:hover, a:active { text-decoration: none; color: gray }
 
 body, h1 {
   color: #404040;
+}
+
+svg {
+  width: 100%;
+  height: 100%;
 }
