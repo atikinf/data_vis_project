@@ -67,16 +67,6 @@
   height: 400px;
   width: 100%;
   text-align: center;
-  background-color: yellow;
-}
-
-body {
-	height: 100%;
-	margin: 0;
-}
-
-html {
-	height: 100%;
 }
 
 #nav ul {
@@ -97,6 +87,15 @@ html {
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
+}
+
+body {
+  height: 100%;
+  margin: 0;
+}
+
+html {
+  height: 100%;
 }
 
 a {
