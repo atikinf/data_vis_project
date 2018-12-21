@@ -8,6 +8,13 @@
 #nav {
 	height: auto;
 	background-color: rgb(32, 32, 32);
+  font-size: 16pt;
+  font-family: sans-serif;
+}
+
+#title {
+  padding: 10px;
+  text-align: center;
 }
 
 body {
@@ -37,4 +44,16 @@ li a {
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
+}
+
+body, h1 {
+  color: #404040;
+}
+
+h1 {
+  margin: 0 auto;
+  margin-top: 30px;
+  font-weight: 800;
+  font-size: 80px;
+  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
