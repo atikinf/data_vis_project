@@ -4,7 +4,6 @@
 class BarGraph {
 	// data as a map (i.e. {year : count, . . . })
 	constructor(id, data, label, val, title, xlabel, ylabel) {
-		console.log(data);
 		this.svg = d3.select("#" + id);
 
 		// scales the width by proper amount
@@ -87,7 +86,6 @@ class BarGraph {
 class HorizBarGraph {
 	// data as a map (i.e. {year : count, . . . })
 	constructor(id, data, label, val, title, xlabel, ylabel) {
-		console.log(data);
 		this.svg = d3.select("#" + id);
 
 		// scales the width by proper amount
@@ -208,15 +206,11 @@ class StackedGraph {
 				max = data3[i]['count'];
 			}
 		}
-		console.log(max);
 		
 		// scales the width by proper amount
  		let width = 800 / data1.length;
 
  		// encodes index information for each bar
- 		console.log(data1);
- 		console.log(data2);
-
  		for (let i in data1) {
  			if (Number.isInteger(parseInt(i))) {
  				data1[i]["i"] = width * i;
@@ -227,7 +221,7 @@ class StackedGraph {
 
  		let barPadding = 8;
 
- 		console.log('test');
+ 		
 
  		let xLabels = new Array();
  		data1.forEach(function(d) {
@@ -243,13 +237,13 @@ class StackedGraph {
             .domain([0, max])
             .range([400, 0]);
 		
-		console.log('datasets');
-		console.log(data1);
-		console.log(data2);
+		
+		
+		
 		data1.forEach(function(d) {
-			console.log(d[val]);
+			
 		});
-		console.log('test');
+		
 
 		felonies.selectAll("rect")
 		    .data(data3)
@@ -337,6 +331,121 @@ class StackedGraph {
 	}
 }
 
+class RectangularHeatmap {
+	constructor(id, data, xval, yval, val, xlabel, ylabel) {
+		data.forEach(function(d) {
+			d[val] = +d[val];
+		});
+
+		this.svg = d3.select("#" + id);
+
+		let x_elements = d3.set(data.map(function(d) { return d[xval]; } )).values();
+		let y_elements = d3.set(data.map(function(d) { return d[yval]; } )).values();
+
+
+		let width = 800;
+		let height = 450;
+		let itemSize = Math.min(width / x_elements.length, height / y_elements.length);
+		let cellSize = itemSize - 1;
+
+
+		let x = d3.scaleBand()
+		.domain(x_elements)
+		.range([0, x_elements.length * itemSize]);
+
+		let xAxis = d3.axisTop().scale(x);
+
+		let y = d3.scaleBand()
+		.domain(y_elements)
+		.range([50, 50 + y_elements.length * itemSize])
+
+
+		let yAxis = d3.axisLeft().scale(y);
+
+		let scale = chroma.scale(['white', 'red']).domain([d3.min(data, function(d) { return d["count"]; }), 
+				d3.max(data, function(d) { return d["count"]; })]);
+		scale = d3.scaleLinear().domain([0,  d3.max(data, function(d) { return d["count"]; })]).range(['white', 'red']);
+
+
+   let cells = this.svg.selectAll('rect')
+        .data(data)
+        .enter().append('g').append('rect')
+        .attr('class', 'cell')
+        .attr('width', cellSize)
+        .attr('height', cellSize)
+        .attr('x', function(d) { return x(d[xval]); })
+        .attr('y', function(d) { return y(d[yval]); })
+        .attr('fill', function(d) { return scale(d["count"]); });
+
+			
+	    this.svg.append("g").attr("transform", "translate(0, 50)").call(xAxis);
+	    // 	''  y-axis
+	    this.svg.append("g").call(yAxis);
+
+
+     let linearGradient = this.svg.append("defs")
+	    .append("linearGradient")
+	    .attr("id", "linear-gradient");
+           
+
+        linearGradient.append("stop")
+            .attr("offset", "0%")
+            .attr("stop-color", "white");
+
+        linearGradient.append("stop")
+            .attr("offset", "100%")
+            .attr("stop-color", "red");
+
+        this.svg.append("rect")
+            .attr("x", 0)
+            .attr("y", 300)
+            .attr("width", width)
+            .attr("height", 30)
+            .style("stroke", "black")
+            .style("stroke-width", 2)
+            .style("fill", "url(#linear-gradient)"); 
+
+	    		// x-axis label
+		this.svg.append("text")
+		.attr("x", 400)             
+		.attr("y", 20)
+		.attr("text-anchor", "middle")  
+		.style("font-size", "14px") 
+		.text(xlabel);
+
+		// y-axis label
+		this.svg.append("text")
+		.attr("transform", "rotate(-90)")
+		.attr("y", -50)
+		.attr("x", -50 - itemSize * y_elements.length / 2)
+		.style("font-size", "14px")
+		.style("text-anchor", "middle")
+		.text(ylabel); 
+
+			    		// x-axis label
+		this.svg.append("text")
+		.attr("x", 0)             
+		.attr("y", 350)
+		.attr("text-anchor", "middle")  
+		.style("font-size", "14px") 
+		.text(0);
+
+		this.svg.append("text")
+		.attr("x", width)             
+		.attr("y", 350)
+		.attr("text-anchor", "middle")  
+		.style("font-size", "14px") 
+		.text(d3.max(data, function(d) { return d["count"]; }));
+
+		this.svg.append("text")
+		.attr("x", -50)             
+		.attr("y", 320)
+		.attr("text-anchor", "middle")  
+		.style("font-size", "14px") 
+		.text("Color scale:");
+	}
+}
+
 function whenDocumentLoaded(action) {
 	if (document.readyState === "loading") {
 		document.addEventListener("DOMContentLoaded", action);
@@ -354,22 +463,35 @@ whenDocumentLoaded(() => {
 	});
 	d3.csv("data/borough_counts.csv").then(function (data) {
 		const plot = new BarGraph("vis_B", data, "BORO_NM", "count", 
-			"Number of Crimes per Borough", "Borough", "Number of Crimes Committed");
+			"Number of Crimes per Borough, 2017", "Borough", "Number of Crimes Committed");
 	});
 	d3.csv("data/month_counts.csv").then(function (data) {
-		const plot = new HorizBarGraph("vis_C", data, "Month", "count", 
-			"Number of Crimes per Month", "Month", "Number of Crimes Committed");
+		const plot = new BarGraph("vis_C", data, "Month", "count", 
+			"Number of Crimes per Month, 2006-2017", "Month", "Number of Crimes Committed");
 	});
 	d3.csv("data/misdemeanors_hour.csv").then(function (data1) {
 		d3.csv("data/violations_hour.csv").then(function (data2) {
 			d3.csv("data/felonies_hour.csv").then(function (data3) {
 				combined = [data1, data2, data3];
 				const plot = new StackedGraph("vis_D", combined, "Hour of the Day", "count", 
-					"Number of Crimes per Hour of Day", "Hour of Day", "Number of Crimes Comitted");
+					"Number of Crimes per Hour of Day, 2006-2017", "Hour of Day", "Number of Crimes Comitted");
 			}); 
 		});
 	});
-		// constructor(id, combined, label, val, title, xlabel, ylabel) {
-
-	// plot object is global, you can inspect it in the dev-console
+	d3.csv("data/crime_freqs.csv").then(function (data) {
+		data.forEach(function(d) {
+			if (d.category == "FELONY") {
+				d["category"] = "red";
+			} else if (d.category == "VIOLATION") {
+				d["category"] = "yellow";
+			} else { // misdemeanor
+				d["category"] = "orange";
+			}
+		});
+		const plot = new HorizBarGraph("vis_E", data, "OFNS_DESC", "count", "Most Frequent Crimes Committed", 
+			"Number of Crimes Committed", "", color="category");
+	});
+	d3.csv("data/crime_times.csv").then(function (data) {
+		const plot = new RectangularHeatmap("vis_F", data, "Hour", "Day", "count", "Hour", "Day of the Week");
+	});
 });
